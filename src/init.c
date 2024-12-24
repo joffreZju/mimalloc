@@ -680,20 +680,20 @@ static void mi_cdecl mi_process_done(void) {
 #elif defined(_MSC_VER)
   // MSVC: use data section magic for static libraries
   // See <https://www.codeguru.com/cpp/misc/misc/applicationcontrol/article.php/c6945/Running-Code-Before-and-After-Main.htm>
-  static int _mi_process_init(void) {
+  int _mi_process_init(void) {
     mi_process_load();
     return 0;
   }
-  typedef int(*_mi_crt_callback_t)(void);
-  #if defined(_M_X64) || defined(_M_ARM64)
-    __pragma(comment(linker, "/include:" "_mi_msvc_initu"))
-    #pragma section(".CRT$XIU", long, read)
-  #else
-    __pragma(comment(linker, "/include:" "__mi_msvc_initu"))
-  #endif
-  #pragma data_seg(".CRT$XIU")
-  mi_decl_externc _mi_crt_callback_t _mi_msvc_initu[] = { &_mi_process_init };
-  #pragma data_seg()
+  // typedef int(*_mi_crt_callback_t)(void);
+  // #if defined(_M_X64) || defined(_M_ARM64)
+  //   __pragma(comment(linker, "/include:" "_mi_msvc_initu"))
+  //   #pragma section(".CRT$XIU", long, read)
+  // #else
+  //   __pragma(comment(linker, "/include:" "__mi_msvc_initu"))
+  // #endif
+  // #pragma data_seg(".CRT$XIU")
+  // mi_decl_externc _mi_crt_callback_t _mi_msvc_initu[] = { &_mi_process_init };
+  // #pragma data_seg()
 
 #elif defined(__cplusplus)
   // C++: use static initialization to detect process start

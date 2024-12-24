@@ -9,3 +9,7 @@ docs/
 *.zip
 *.tar
 *.gz
+.idea
+.vs
+build
+cmake-build-debug
